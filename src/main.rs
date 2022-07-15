@@ -2,7 +2,7 @@ use macroquad::prelude::*;
 
 #[macroquad::main("Gradient")]
 async fn main() {
-    let render_target = render_target(640, 480);
+    let render_target = render_target(500, 500);
     render_target.texture.set_filter(FilterMode::Nearest);
 
     let material = load_material(
@@ -56,7 +56,8 @@ uniform vec2 canvasSize;
 uniform sampler2D Texture;
 
 void main() {
-    gl_FragColor = vec4(gl_FragCoord.x/canvasSize.x, 0, 0, 1);
+    vec2 coord = gl_FragCoord.xy/canvasSize.xy;
+    gl_FragColor = vec4(coord.x, coord.y, 1.-coord.x, 1);
 }
 "#;
 
@@ -66,7 +67,6 @@ attribute vec2 texcoord;
 attribute vec4 color0;
 uniform mat4 Model;
 uniform mat4 Projection;
-uniform vec2 canvasSize;
 void main() {
     gl_Position = Projection * Model * vec4(position, 1);
 }
