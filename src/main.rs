@@ -52,12 +52,17 @@ async fn main() {
 const GRADIENT_FRAGMENT_SHADER: &'static str = r#"#version 100
 precision lowp float;
 uniform vec2 canvasSize;
-
+uniform vec4 _Time;
 uniform sampler2D Texture;
 
 void main() {
+    float time = _Time.x;
     vec2 coord = gl_FragCoord.xy/canvasSize.xy;
-    gl_FragColor = vec4(coord.x, coord.y, 1.-coord.x, 1);
+    if (coord.x < (sin(time) + 1.)) {
+        gl_FragColor = vec4(coord.x, coord.y, 1.-coord.x, 1);
+    } else {
+        gl_FragColor = vec4(1,1,1,1); // white
+    }
 }
 "#;
 
