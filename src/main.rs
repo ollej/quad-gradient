@@ -58,7 +58,8 @@ uniform sampler2D Texture;
 void main() {
     float time = _Time.x;
     vec2 coord = gl_FragCoord.xy/canvasSize.xy;
-    if (coord.x < (sin(time) + 1.)) {
+    float threshold = sin(time) + 1.; // oscillate between 0 and 1
+    if (coord.x < threshold && coord.y < threshold) {
         gl_FragColor = vec4(coord.x, coord.y, 1.-coord.x, 1);
     } else {
         gl_FragColor = vec4(1,1,1,1); // white
