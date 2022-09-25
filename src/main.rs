@@ -1,3 +1,4 @@
+#![windows_subsystem = "windows"]
 use macroquad::prelude::*;
 
 #[macroquad::main("Gradient")]
