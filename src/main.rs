@@ -3,9 +3,7 @@ use macroquad::prelude::*;
 
 #[macroquad::main("Gradient")]
 async fn main() {
-    let render_target = render_target(500, 500);
-    render_target.texture.set_filter(FilterMode::Nearest);
-
+    let texture = render_target(500, 500).texture;
     let material = load_material(
         GRADIENT_VERTEX_SHADER,
         GRADIENT_FRAGMENT_SHADER,
@@ -16,26 +14,13 @@ async fn main() {
     )
     .unwrap();
 
+    set_default_camera();
     loop {
-        // drawing to the texture
-
-        // 0..100, 0..100 camera
-        set_camera(&Camera2D {
-            zoom: vec2(0.01, 0.01),
-            target: vec2(0.0, 0.0),
-            render_target: Some(render_target),
-            ..Default::default()
-        });
-
-        // drawing to the screen
-
-        set_default_camera();
-
         clear_background(WHITE);
         gl_use_material(material);
         material.set_uniform("canvasSize", (screen_width(), screen_height()));
         draw_texture_ex(
-            render_target.texture,
+            texture,
             0.,
             0.,
             WHITE,
