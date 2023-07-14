@@ -5,8 +5,11 @@ use macroquad::prelude::*;
 async fn main() {
     let texture = render_target(500, 500).texture;
     let material = load_material(
-        GRADIENT_VERTEX_SHADER,
-        GRADIENT_FRAGMENT_SHADER,
+        ShaderSource {
+            glsl_vertex: Some(GRADIENT_VERTEX_SHADER),
+            glsl_fragment: Some(GRADIENT_FRAGMENT_SHADER),
+            metal_shader: None,
+        },
         MaterialParams {
             uniforms: vec![("canvasSize".to_owned(), UniformType::Float2)],
             ..Default::default()
@@ -17,10 +20,10 @@ async fn main() {
     set_default_camera();
     loop {
         clear_background(WHITE);
-        gl_use_material(material);
+        gl_use_material(&material);
         material.set_uniform("canvasSize", (screen_width(), screen_height()));
         draw_texture_ex(
-            texture,
+            &texture,
             0.,
             0.,
             WHITE,
